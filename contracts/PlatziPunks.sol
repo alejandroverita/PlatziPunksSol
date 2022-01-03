@@ -4,8 +4,10 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Base64";
+import "./PlatziPunksDNA.sol";
 
-contract PlatziPunks is ERC721, ERC721Enumerable {
+contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
 
     using Counters for Counters.Counter;
 
@@ -25,6 +27,28 @@ contract PlatziPunks is ERC721, ERC721Enumerable {
         _safeMint(msg.sender, current);
 
         _tokenId.increment()
+    }
+
+    //consulta la metadata de un contracto inteligente para un nft basado en el id correspondiente
+    function tokenURI(uint256 tokenId) 
+        public 
+        view 
+        override 
+        returns(string memory) 
+    {
+        require(_exists(tokenId), "ERC721 Metadata: URI query for nonexistent token");
+
+        string memory jsonURI = Base64.encode (
+            abi.encodePacked(
+                '{ "name" : "PlatziPunk #',
+                tokenId,
+                '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "', "//TODO: Calculate image URL", 
+                '"}'
+                
+            );
+        );
+
+        return string(abi.encodePacked("data:application/json;base64,", jsonURI));
     }
 
     function _beforeTokenTransfer(
