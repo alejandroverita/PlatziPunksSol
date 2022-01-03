@@ -66,7 +66,7 @@ describe('PlatziPunks Contract', ()=> {
             const stringifiedTokenURI = await tokenURI.toString();
 
             const [, base64JSON] = stringifiedTokenURI.split(
-                "data:application/json;base64,"
+                "data:application/json;base64"
             );
 
             const stringifiedMetadata = await Buffer.from(base64JSON,"base64").toString('ascii');

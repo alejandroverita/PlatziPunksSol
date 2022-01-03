@@ -226,11 +226,12 @@ contract PlatziPunksDNA {
         pure
         returns (uint8)
     {
-        return
+        return (
             uint8(
                 (_dna % (1 * 10**(_rightDiscard + ADN_SECTION_SIZE))) /
-                    (1 * 10**_rightDiscard)
-            );
+                    (1 * 10**(_rightDiscard))
+            )
+        );
     }
 
     function getAccessoriesType(uint256 _dna)
