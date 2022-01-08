@@ -34,3 +34,7 @@ Es una extension del ERC721 que añade 3 funciones
 - name: nombre del token
 - symbol: el simbolo con el que se identifica en el mercado
 - tokenURI: una URL que debe regresar un archivo JSON con las propiedades del NFT
+
+![Web3](https://uploads-ssl.webflow.com/5ddd80927946cdaa0e71d607/614bae739b29ae6f4e7d97a1_Screen%20Shot%202021-09-22%20at%206.29.59%20PM.png "Web3")
+
+![Web2 vs Web3](https://static.platzi.com/media/user_upload/4-web2-web3-f5597018-22b2-4b02-81c0-65fc912bf6d0.jpg "Web2 vs Web3")

@@ -16,4 +16,9 @@ const deploy = async () => {
     
 };
 
-deploy().then(()=>process.exit(0)).catch((error) => {console.log(error); process.exit(1);})
+deploy()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.log(error);
+    process.exit(1);
+});

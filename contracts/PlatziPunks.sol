@@ -8,9 +8,9 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Base64.sol";
 import "./PlatziPunksDNA.sol";
 
+
 contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
     using Counters for Counters.Counter;
-
     using Strings for uint256;
 
     Counters.Counter private _idCounter;
@@ -20,6 +20,16 @@ contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
     // El constructor necesita dos parámetros, el nombre y la sigla del NFT.
     constructor(uint256 _maxSupply) ERC721("PlatziPunks", "PLPKS") {
         maxSupply = _maxSupply;
+    }
+
+    function mint() public {
+        uint256 current = _idCounter.current();
+        //validacion para que no se creen mas de los que se estan creando
+        require(current < maxSupply, "No PlatziPunks left :(");
+
+        tokenDNA[current] = deterministicPseudoRandomDNA(current, msg.sender);
+        _safeMint(msg.sender, current);
+        _idCounter.increment();
     }
 
     function _baseURI() internal pure override returns (string memory) {
@@ -71,16 +81,6 @@ contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
         return string(abi.encodePacked(baseURI, "?", paramsURI));
     }
 
-    function mint() public {
-        uint256 current = _idCounter.current();
-        //validacion para que no se creen mas de los que se estan creando
-        require(current < maxSupply, "No PlatziPunks left");
-
-        tokenDNA[current] = deterministicPseudoRandomDNA(current, msg.sender);
-        _safeMint(msg.sender, current);
-
-        _idCounter.increment();
-    }
 
     //consulta la metadata de un contracto inteligente para un nft basado en el id correspondiente
     function tokenURI(uint256 tokenId)
@@ -99,7 +99,7 @@ contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
 
         string memory jsonURI = Base64.encode(
             abi.encodePacked(
-                '{ "name" : "PlatziPunk #',
+                '{ "name": "PlatziPunks #',
                 tokenId.toString(),
                 '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "',
                 image,
@@ -111,6 +111,7 @@ contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
             string(abi.encodePacked("data:application/json;base64", jsonURI));
     }
 
+    // Override required
     function _beforeTokenTransfer(
         address from,
         address to,
